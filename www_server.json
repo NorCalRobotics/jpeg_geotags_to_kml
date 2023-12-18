@@ -1,0 +1,9 @@
+{
+  "hostname": null,
+  "username": null,
+  "password": null,
+  "upload_protocol": "SFTP",
+  "upload_dir": "jpeg_geotags_to_kml_photos",
+  "sftp_dest_fmt": "{0[hostname]}:{0[upload_dir]}/{photo_path}",
+  "url_fmt": "http://{0[hostname]}/jpeg_geotags_to_kml_photos/{photo_path}"
+}

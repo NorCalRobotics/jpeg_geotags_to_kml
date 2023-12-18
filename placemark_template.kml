@@ -1,0 +1,17 @@
+	<Placemark>
+		<placemark name />
+		<description><![CDATA[<placemark img />]]></description>
+		<styleUrl>#pointStyleMap</styleUrl>
+		<ExtendedData>
+			<SchemaData schemaUrl="#S_jpeg_geotags_DDS">
+				<SimpleData name="Latitude">LATITUDE</SimpleData>
+				<SimpleData name="Longitude">LONGITUDE</SimpleData>
+				<SimpleData name="Name">JPEG_FILENAME</SimpleData>
+                <SimpleData name="PhotoUrl">JPEG_URL</SimpleData>
+			</SchemaData>
+		</ExtendedData>
+		<gx:balloonVisibility>1</gx:balloonVisibility>
+		<Point>
+			<coordinates>LONGITUDE,LATITUDE,0</coordinates>
+		</Point>
+	</Placemark>
