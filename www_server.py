@@ -59,7 +59,7 @@ if server is not None:
                 raise e
 
             try:
-                password = base64.decodestring(server['password'])
+                password = base64.standard_b64decode(server['password'] + '==')
             except KeyError as e:
                 e.message = 'WWW Server password was not specified.'
                 logging.error(e.message)

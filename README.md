@@ -42,10 +42,14 @@ This can self-reference fields in this config file, such as in the case of the p
 The pattern "{photo_path}" will be replaced by each photo's filename.
 
 ## Dependencies:
-This project requires the modules [pillow](https://pypi.org/project/Pillow/) and [pysftp](https://pypi.org/project/pysftp/). You can install these using [pip](https://pypi.org/project/pip/).
+This project requires the modules listed in [requirements.txt]:
+* [pillow](https://pypi.org/project/Pillow/)
+* [pysftp](https://pypi.org/project/pysftp/).
+* [chevron](https://pypi.org/project/chevron/).
+You can install these using [pip](https://pypi.org/project/pip/).
 For Windows, if your python interpretter is in the default installed location,
 you can run [install_pypi_requirements.bat](install_pypi_requirements.bat) to do this.
-Otherwise, run `pip install pillow pysftp` as per normal [python](https://www.python.org/) procedures.
+Otherwise, run `pip install -r requirements.txt` as per normal [python](https://www.python.org/) procedures.
 
 ## Usage:
 Finally, to run the main script, run [photo_gallery_dir_to_kml.py](photo_gallery_dir_to_kml.py) with your locally installed python interpretter as per normal python procedures.
