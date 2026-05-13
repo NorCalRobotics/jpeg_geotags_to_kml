@@ -49,6 +49,8 @@ def get_photo_latlong(photo_path):
         logging.debug(tag_name + (" = %d" % tag_id))
         exif_table[tag_name] = exif_value
 
+    orientation = 1 if 'Orientation' not in exif_table else exif_table['Orientation']
+
     if 'GPSInfo' not in exif_table:
         return None
 
@@ -70,7 +72,7 @@ def get_photo_latlong(photo_path):
     except KeyError:
         return None
 
-    return latitude, longitude
+    return latitude, longitude, orientation
 
 
 def unit_test():
@@ -78,9 +80,10 @@ def unit_test():
 
     t_lat_long = get_photo_latlong("test_photo.jpg")
     if t_lat_long is not None:
-        latitude, longitude = t_lat_long
+        latitude, longitude, orientation = t_lat_long
         print("latitude: %f" % latitude)
         print("longitude: %f" % longitude)
+        print("orientation: %d" % orientation)
 
 
 if __name__ == "__main__":

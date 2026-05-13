@@ -27,11 +27,11 @@ def process_photos_in_directory(photo_directory):
 
         t_lat_long = get_photo_latlong(photo_filename)
         if t_lat_long is not None:
-            latitude, longitude = t_lat_long
+            latitude, longitude, orientation = t_lat_long
             latitude_s = "%f" % latitude
             longitude_s = "%f" % longitude
             csv_generator.add_placemark(photo_path, latitude_s, longitude_s)
-            generator.add_placemark(photo_filename, photo_path, latitude_s, longitude_s)
+            generator.add_placemark(photo_filename, photo_path, latitude_s, longitude_s, orientation)
 
     generator.write_kml(os.path.basename(photo_directory) + '.kml')
 

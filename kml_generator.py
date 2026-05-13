@@ -1,9 +1,19 @@
 import os
 import chevron
 from www_server import WwwServer
+from typing import Final
 
 
 class KmlGenerator:
+    # Mapping EXIF integers to CSS degrees
+    rotation_none: Final = "0deg"
+    orientation_mapping: Final = {
+        1: rotation_none,
+        3: "180deg",
+        6: "90deg",
+        8: "270deg"
+    }
+
     def __init__(self, template_path="kml_template.mustache"):
         with open(template_path, "r") as f:
             self.template = f.read()
@@ -15,7 +25,22 @@ class KmlGenerator:
         else:
             self.hosting = WwwServer()
 
-    def add_placemark(self, photo_filename, photo_path, latitude, longitude):
+    def css_orientation_style(self, orientation=1):
+        rotation = self.orientation_mapping.get(orientation, self.rotation_none)
+        if rotation == self.rotation_none:
+            return ""
+
+        style_t = """
+        transform: rotate({0});
+        -webkit-transform: rotate({0});
+        transform-origin: center;
+        image-orientation: from-image; /* Look at the EXIF tag and rotate */
+        """
+        style_f = " ".join(style_t.strip().split())
+
+        return style_f.format(rotation)
+
+    def add_placemark(self, photo_filename, photo_path, latitude, longitude, orientation=1):
         photo_name = os.path.splitext(photo_path)[0]
         if self.hosting is not None:
             self.hosting.upload_photo(photo_filename)
@@ -27,7 +52,8 @@ class KmlGenerator:
             "name": photo_name,
             "photo_url": img_url,
             "latitude": latitude,
-            "longitude": longitude
+            "longitude": longitude,
+            "style_attr": self.css_orientation_style(orientation)
         })
 
     def write_kml(self, output_filename):
