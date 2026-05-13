@@ -1,0 +1,3 @@
+[submodule "tkinter-json-editor"]
+	path = tkinter-json-editor
+	url = https://github.com/zargit/tkinter-json-editor.git
