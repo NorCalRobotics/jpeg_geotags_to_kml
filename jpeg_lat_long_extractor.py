@@ -4,6 +4,11 @@ from PIL.ExifTags import TAGS
 from PIL.ExifTags import GPSTAGS
 
 
+def gps_rational(subject):
+    if isinstance(subject, tuple):
+        return float(subject[0]) / float(subject[1])
+    return float(subject)
+
 def gps_tag_latlong_to_float(t_subject, hemisphere):
     """Converts a latitude or longitude GPS tag tuple to a floating point number"""
 
@@ -11,9 +16,9 @@ def gps_tag_latlong_to_float(t_subject, hemisphere):
     t_mins = t_subject[1]
     t_secs = t_subject[2]
 
-    degrees = float(t_degs[0]) / float(t_degs[1])
-    minutes = float(t_mins[0]) / float(t_mins[1])
-    seconds = float(t_secs[0]) / float(t_secs[1])
+    degrees = gps_rational(t_degs)
+    minutes = gps_rational(t_mins)
+    seconds = gps_rational(t_secs)
 
     sign = 1.0 if hemisphere in ('N', 'E') else -1.0
 
@@ -36,7 +41,7 @@ def get_photo_latlong(photo_path):
     dir(photo)
 
     exif_table = dict()
-    for tag_id, exif_value in photo.getexif().items():
+    for tag_id, exif_value in photo._getexif().items():
         tag_name = TAGS.get(tag_id)
         if tag_name is None:
             continue
@@ -49,6 +54,9 @@ def get_photo_latlong(photo_path):
 
     gps_info = dict()
     gps_ifd = exif_table['GPSInfo']
+    if isinstance(gps_ifd, int):
+        return None
+
     for tag_id, gps_value in gps_ifd.items():
         geo_tag = GPSTAGS.get(tag_id)
         logging.debug(geo_tag + (" = %d" % tag_id))

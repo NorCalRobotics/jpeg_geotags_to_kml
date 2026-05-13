@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
 <Document>
-	<document name />
+	{{document_name}}
 	<Schema name="jpeg_geotags" id="S_jpeg_geotags_DDS">
 		<SimpleField type="double" name="Latitude"><displayName>&lt;b&gt;Latitude&lt;/b&gt;</displayName>
 </SimpleField>
@@ -82,6 +82,24 @@
 			<styleUrl>#hlightPointStyle</styleUrl>
 		</Pair>
 	</StyleMap>
-	<Placemarks>
+	{{#placemarks}}
+	<Placemark>
+		<name>{{name}}</name>
+		<description><![CDATA[<img style="max-width:500px;" src="{{photo_url}}">]]></description>
+		<styleUrl>#pointStyleMap</styleUrl>
+		<ExtendedData>
+			<SchemaData schemaUrl="#S_jpeg_geotags_DDS">
+				<SimpleData name="Latitude">{{latitude}}</SimpleData>
+                <SimpleData name="Longitude">{{longitude}}</SimpleData>
+                <SimpleData name="Name">{{name}}</SimpleData>
+                <SimpleData name="PhotoUrl">{{photo_url}}</SimpleData>
+			</SchemaData>
+		</ExtendedData>
+		<gx:balloonVisibility>1</gx:balloonVisibility>
+		<Point>
+			<coordinates>{{longitude}},{{latitude}},0</coordinates>
+		</Point>
+	</Placemark>
+	{{/placemarks}}
 </Document>
 </kml>

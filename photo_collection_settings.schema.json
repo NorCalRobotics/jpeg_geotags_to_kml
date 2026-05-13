@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "photo_collection_settings.schema.json",
+  "title": "Photo Collection Settings",
+  "description": "Configuration for specifying the local directory of photo collections for KML processing.",
+  "type": "object",
+  "properties": {
+    "photo_gallery_directory": {
+      "type": "string",
+      "title": "Gallery Path",
+      "description": "The absolute pathname of the local directory where photos are stored. Use '/' as a separator.",
+      "examples": [
+        "/home/_username_/Pictures"
+      ],
+      "format": "path",
+      "contentMediaType": "application/x-directory"
+    }
+  },
+  "required": ["photo_gallery_directory"],
+  "additionalProperties": false
+}

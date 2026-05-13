@@ -1,0 +1,8 @@
+# Image processing for geotags and thumbnails
+Pillow
+
+# Secure file transfer for KML publishing
+pysftp
+
+# Mustache template rendering for KML generation
+chevron
