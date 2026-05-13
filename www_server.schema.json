@@ -1,0 +1,92 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "www_server.schema.json",
+  "title": "Photo Web Hosting Settings",
+  "description": "Configuration for publicly available image hosting and SFTP upload for KML publishing.",
+  "type": "object",
+  "properties": {
+    "hostname": {
+      "type": "string",
+      "title": "Hostname",
+      "description": "Your hosting server's Fully Qualified Domain Name (FQDN).",
+      "examples": ["www.example.com"],
+      "format": "hostname"
+    },
+    "local_ip": {
+      "type": "string",
+      "title": "Local IP Address",
+      "description": "IP address used for SFTP connection; overrides hostname if specified.[cite: 3]",
+      "examples": ["192.168.1.101"],
+      "format": "ipv4"
+    },
+    "username": {
+      "type": "string",
+      "title": "Username",
+      "description": "Username for authentication with the hosting server.[cite: 3]",
+      "format": "username"
+    },
+    "password": {
+      "type": "string",
+      "title": "Password",
+      "description": "Password for authentication with the hosting server.[cite: 3]",
+      "contentEncoding": "base64",
+      "format": "password"
+    },
+    "hostkey_type": {
+      "type": "string",
+      "title": "Hostkey Type",
+      "description": "Hostkey type for known hosts authentication (e.g., 'ecdsa-sha2-nistp256').[cite: 3]",
+      "default": "ecdsa-sha2-nistp256"
+    },
+    "hostkey": {
+      "type": "string",
+      "title": "Hostkey",
+      "description": "Hostkey for authentication with the hosting server.[cite: 3]",
+      "contentMediaType": "application/x-pem-file"
+    },
+    "upload_protocol": {
+      "type": "string",
+      "title": "Upload Protocol",
+      "description": "Currently only SFTP protocol is supported.[cite: 3]",
+      "enum": ["SFTP"]
+    },
+    "upload_dir": {
+      "type": "string",
+      "title": "Upload Directory",
+      "description": "Remote directory on the hosting server where photos will be uploaded.[cite: 3]",
+      "examples": ["/var/www/html/kml_photos"],
+      "format": "path",
+      "contentMediaType": "application/x-directory"
+    },
+    "sftp_dest_fmt": {
+      "type": "string",
+      "title": "SFTP Destination Format",
+      "description": "Format string for generating the SFTP file destination. {photo_path} is required.[cite: 3]",
+      "default": "{0[hostname]}:{0[upload_dir]}/{photo_path}"
+    },
+    "http_dir": {
+      "type": "string",
+      "title": "HTTP Directory",
+      "description": "HTTP subdirectory where images are hosted.[cite: 3]",
+      "examples": ["kml_photos"],
+      "format": "path",
+      "contentMediaType": "application/x-directory"
+    },
+    "url_fmt": {
+      "type": "string",
+      "title": "URL Format",
+      "description": "Format string for generating the hosted image URL. Normally starts with http://.[cite: 3]",
+      "default": "http://{0[hostname]}/{0[http_dir]}/{photo_path}"
+    }
+  },
+  "required": [
+    "hostname",
+    "username",
+    "password",
+    "upload_protocol",
+    "upload_dir",
+    "sftp_dest_fmt",
+    "url_fmt"
+  ],
+  "additionalProperties": false
+}
