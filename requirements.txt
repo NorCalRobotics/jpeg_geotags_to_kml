@@ -2,7 +2,8 @@
 Pillow
 
 # Secure file transfer for KML publishing
-pysftp
+paramiko<3.0
+pysftp==0.2.9
 
 # Mustache template rendering for KML generation
 chevron
