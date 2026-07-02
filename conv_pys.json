@@ -2,13 +2,10 @@
   "files": {
     "./jpeg_lat_long_extractor.py": "",
     "./kml_generator.py": "",
-    "./google_earth_importable_csv_generator.py": "",
-    "./www_server.py": ""
+    "./kml_template.mustache": ""
   },
   "packages": [
     "Pillow",
-    "paramiko<3.0",
-    "pysftp==0.2.9",
     "chevron"
   ]
 }
