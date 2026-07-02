@@ -1,0 +1,8 @@
+{
+  "upload_protocol": "HTTP_PUT",
+  "upload_url": "https://your-bucket.s3.amazonaws.com/uploads/",
+  "url_fmt": "https://your-bucket.s3.amazonaws.com/uploads/{photo_path}",
+  "headers": {
+    "Content-Type": "image/jpeg"
+  }
+}

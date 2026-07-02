@@ -5,7 +5,7 @@ from js import File  # Import the JavaScript File type representation
 from jpeg_lat_long_extractor import get_photo_latlong
 from kml_generator import KmlGenerator
 
-def convert_photos_to_kml(kml_name: str, photo_list: List[File])-> None:
+def convert_photos_to_kml(kml_name: str, photo_list: List[File])-> str:
     generator = KmlGenerator()
 
     for photo in photo_list:
@@ -17,4 +17,6 @@ def convert_photos_to_kml(kml_name: str, photo_list: List[File])-> None:
         longitude_s = "%f" % longitude
         generator.add_placemark(photo.name, photo.name, latitude_s, longitude_s)
 
-    generator.write_kml(os.path.basename(kml_name) + '.kml')
+    kml_filename = os.path.basename(kml_name) + '.kml'
+    generator.write_kml(kml_filename)
+    return kml_filename
