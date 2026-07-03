@@ -5,11 +5,12 @@ from js import File  # Import the JavaScript File type representation
 from jpeg_lat_long_extractor import get_photo_latlong
 from kml_generator import KmlGenerator
 
-def convert_photos_to_kml(kml_name: str, photo_list: List[File])-> str:
+async def convert_photos_to_kml(kml_name: str, photo_list: List[File]) -> str:
     generator = KmlGenerator()
 
     for photo in photo_list:
-        t_lat_long = get_photo_latlong(io.BytesIO(await photo.arrayBuffer().to_bytes()))
+        buf = await photo.arrayBuffer()
+        t_lat_long = get_photo_latlong(io.BytesIO(buf.to_bytes()))
         if t_lat_long is None:
             continue
         latitude, longitude = t_lat_long

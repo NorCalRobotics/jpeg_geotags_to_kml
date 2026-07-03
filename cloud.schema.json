@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "cloud.schema.json",
+  "title": "Photo Cloud Integration Settings",
+  "description": "Configuration for specifying cloud storage access for KML processing.",
+  "type": "object",
+  "properties": {
+    "upload_protocol": {
+      "type": "string",
+      "title": "Upload Protocol",
+      "description": "Protocol used for uploading image files. Only HTTP_PUT is supported.",
+      "default": "HTTP_PUT",
+      "enum": ["HTTP_PUT"],
+      "readOnly": true
+    },
+    "upload_url": {
+      "type": "string",
+      "title": "Upload URL",
+      "description": "Base upload endpoint URL. This is the target location where files are PUT.",
+      "examples": [
+        "https://your-bucket.s3.amazonaws.com/uploads/"
+      ],
+      "format": "uri"
+    },
+    "url_fmt": {
+      "type": "string",
+      "title": "URL Format",
+      "description": "Format string for generating the hosted image URL, using {photo_path} as the file placeholder.",
+      "examples": [
+        "https://your-bucket.s3.amazonaws.com/uploads/{photo_path}"
+      ],
+      "format": "uri-template"
+    },
+    "headers": {
+      "type": "object",
+      "title": "Request Headers",
+      "description": "HTTP request headers to send when uploading images.",
+      "properties": {
+        "Content-Type": {
+          "type": "string",
+          "title": "Content-Type",
+          "description": "MIME type to send with the image upload request.",
+          "default": "image/jpeg",
+          "format": "mime-type"
+        }
+      },
+      "required": ["Content-Type"],
+      "additionalProperties": true
+    }
+  },
+  "required": ["upload_protocol", "upload_url", "url_fmt", "headers"],
+  "additionalProperties": false
+}
