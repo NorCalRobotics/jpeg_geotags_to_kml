@@ -9,8 +9,8 @@ async def convert_photos_to_kml(kml_name: str, photo_list: List[File]) -> str:
     generator = KmlGenerator()
 
     for photo in photo_list:
-        buf = await photo.arrayBuffer()
-        t_lat_long = get_photo_latlong(io.BytesIO(buf.to_bytes()))
+        photo_buffer = await photo.arrayBuffer()
+        t_lat_long = get_photo_latlong(io.BytesIO(photo_buffer.to_bytes()))
         if t_lat_long is None:
             continue
         latitude, longitude = t_lat_long

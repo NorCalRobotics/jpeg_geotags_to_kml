@@ -1,6 +1,11 @@
 import os
 import chevron
-from www_server import WwwServer
+try:
+    from www_server import WwwServer
+except ModuleNotFoundError:
+    WwwServer = None
+except ImportError:
+    WwwServer = None
 
 
 class KmlGenerator:

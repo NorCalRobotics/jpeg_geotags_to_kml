@@ -41,11 +41,13 @@
           "title": "Content-Type",
           "description": "MIME type to send with the image upload request.",
           "default": "image/jpeg",
-          "format": "mime-type"
+          "format": "mime-type",
+          "readOnly": true
         }
       },
       "required": ["Content-Type"],
-      "additionalProperties": true
+      "additionalProperties": true,
+      "readOnly": true
     }
   },
   "required": ["upload_protocol", "upload_url", "url_fmt", "headers"],
