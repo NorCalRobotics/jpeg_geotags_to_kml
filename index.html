@@ -5,14 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JPEG GeoTags to KML Converter</title>
     <link rel="stylesheet" href="https://pyscript.net/releases/2026.3.1/core.css">
+    <link rel="stylesheet" href="photo-picker.css">
     <script type="module" src="https://pyscript.net/releases/2026.3.1/core.js"></script>
     <script src="pwa.py" config="conv_pys.json" type="py"></script>
     <script type="module" src="cloud.js"></script>
+    <script src="convert_to_kml.js"></script>
 </head>
 <body>
-    <div id="form-holder"></div>
-    <input type="file" id="photo-picker" multiple>
-    <button id="convert-btn">Convert to KML</button>
+    <div id="photo-picker-section">
+        <label for="photo-picker">Select Photos:</label>
+        <input type="file" id="photo-picker" multiple accept="image/jpeg">
+        <div id="photo-count"></div>
+        <input type="text" id="project-name" placeholder="Project Name" value="UntitledProject"><br />
+        <div id="form-holder"></div>
+        <button id="convert-btn" onClick='convertToKML()'>Convert to KML</button>
+    </div>
+    <div id="thumbnails-container"></div>
+    <div id="downloads-container"></div>
     <div id="conversion-log"></div>
+    <script src="photo-picker.js"></script>
 </body>
 </html>
