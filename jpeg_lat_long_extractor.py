@@ -66,7 +66,7 @@ def get_photo_latlong(photo_path):
         t_lat = gps_info['GPSLatitude']
         latitude = gps_tag_latlong_to_float(t_lat, gps_info['GPSLatitudeRef'])
         t_long = gps_info['GPSLongitude']
-        longitude = gps_tag_latlong_to_float(t_long, ['GPSLongitudeRef'])
+        longitude = gps_tag_latlong_to_float(t_long, gps_info['GPSLongitudeRef'])
     except KeyError:
         return None
 

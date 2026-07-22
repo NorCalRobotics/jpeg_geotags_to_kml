@@ -3,3 +3,7 @@
 *.kml
 !*_template.kml
 .idea
+.venv
+venv
+photo_collection_settings.json
+*www_server.json
