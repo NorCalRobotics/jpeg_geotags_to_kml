@@ -3,6 +3,8 @@ from PIL import Image
 from PIL.ExifTags import TAGS
 from PIL.ExifTags import GPSTAGS
 
+extractor_logger = logging
+
 
 def gps_rational(subject):
     if isinstance(subject, tuple):
@@ -46,7 +48,7 @@ def get_photo_latlong(photo_path):
         if tag_name is None:
             continue
 
-        logging.debug(tag_name + (" = %d" % tag_id))
+        extractor_logger.debug(tag_name + (" = %d" % tag_id))
         exif_table[tag_name] = exif_value
 
     if 'GPSInfo' not in exif_table:
@@ -59,7 +61,7 @@ def get_photo_latlong(photo_path):
 
     for tag_id, gps_value in gps_ifd.items():
         geo_tag = GPSTAGS.get(tag_id)
-        logging.debug(geo_tag + (" = %d" % tag_id))
+        extractor_logger.debug(geo_tag + (" = %d" % tag_id))
         gps_info[geo_tag] = gps_value
 
     try:

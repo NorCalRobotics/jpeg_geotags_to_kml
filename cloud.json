@@ -1,7 +1,11 @@
 {
+  "hostname": "www.example.com",
+  "username": "admin",
+  "password": "password",
+  "upload_dir": "Photos/jpeg_geotags_to_kml_photos",
   "upload_protocol": "HTTP_PUT",
-  "upload_url": "https://your-bucket.s3.amazonaws.com/uploads/",
-  "url_fmt": "https://your-bucket.s3.amazonaws.com/uploads/{photo_path}",
+  "upload_url": "http://{0[hostname]}/dav/webdav.php/{0[upload_dir]}/{photo_path}",
+  "url_fmt": "http://{0[hostname]}/dav/data/{0[upload_dir]}/{photo_path}",
   "headers": {
     "Content-Type": "image/jpeg"
   }

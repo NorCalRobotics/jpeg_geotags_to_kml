@@ -5,12 +5,14 @@ import logging
 from js import File, window, document, fetch # Import the JavaScript window object
 from pyodide.ffi import to_js
 
+http_put_logger = logging
+
 
 """Load the server settings from the config file"""
 try:
     server = json.load(open('cloud.json', 'r'))
 except IOError:
-    logging.warning('HTTP-PUT Image Server settings file "cloud.json" not found.')
+    http_put_logger.warning('HTTP-PUT Image Server settings file "cloud.json" not found.')
     server = None
     HttpPutServer = None
 
@@ -19,11 +21,11 @@ if server is not None:
     """Validate the server's upload protocol"""
     try:
         if server['upload_protocol'].upper() != 'HTTP_PUT':
-            logging.warning('Specified HTTP-PUT Image Server upload protocol "%s" is not supported.' % server['upload_protocol'])
+            http_put_logger.warning('Specified HTTP-PUT Image Server upload protocol "%s" is not supported.' % server['upload_protocol'])
             server = None
             HttpPutServer = None
     except KeyError:
-        logging.warning('HTTP-PUT Image Server upload protocol was not specified.')
+        http_put_logger.warning('HTTP-PUT Image Server upload protocol was not specified.')
         server = None
         HttpPutServer = None
 
@@ -37,16 +39,25 @@ if server is not None:
                 return server['url_fmt'].format(server, photo_path=photo_name)
             except KeyError as e:
                 e.message = 'HTTP-PUT Image Server URL format was not specified.'
-                logging.error(e.message)
+                http_put_logger.error(e.message)
                 raise e
 
         async def upload_photo(self, photo_js_object : File):
             upload_url = server['upload_url'].format(server, photo_path=photo_js_object.name)
+            http_put_logger.info(f"Uploading {photo_js_object.name} to {upload_url}...") 
             response = await fetch(upload_url, to_js({
                 'method': 'PUT',
                 'headers': server["headers"],
                 'body': photo_js_object
             }))
+
+            response_text = await response.text()
+
+            if response.ok:
+                http_put_logger.info(f"Upload successful [{response.status} {response.statusText}]: {photo_js_object.name}")
+            else:
+                http_put_logger.error(f"Upload failed [{response.status} {response.statusText}]: {response_text}")
+            return response_text
 
         def upload_photo(self, photo_name : str):
             photo_js_object = None
@@ -56,7 +67,7 @@ if server is not None:
                     break
             
             if photo_js_object is not None:
-                self.upload_photo(photo_js_object)
+                return self.upload_photo(photo_js_object)
 
 
 def unit_test():
