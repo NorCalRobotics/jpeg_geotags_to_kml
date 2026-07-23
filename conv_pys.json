@@ -2,6 +2,8 @@
   "files": {
     "./jpeg_lat_long_extractor.py": "",
     "./kml_generator.py": "",
+    "./http_server.py": "",
+    "./cloud.json": "",
     "./kml_template.mustache": ""
   },
   "packages": [

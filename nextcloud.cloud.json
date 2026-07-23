@@ -1,0 +1,12 @@
+{
+  "hostname": "nextcloud.example.com",
+  "username": "admin",
+  "password": "password",
+  "upload_dir": "dav/files/user/Photos/jpeg_geotags_to_kml_photos",
+  "upload_protocol": "HTTP_PUT",
+  "upload_url": "https://{0[hostname]}/remote.php/{0[upload_dir]}/",
+  "url_fmt": "https://{0[hostname]}/remote.php/{0[upload_dir]}/{photo_path}",
+  "headers": {
+    "Content-Type": "image/jpeg"
+  }
+}

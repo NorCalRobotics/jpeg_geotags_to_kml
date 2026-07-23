@@ -7,6 +7,14 @@ except ModuleNotFoundError:
 except ImportError:
     WwwServer = None
 
+if WwwServer is None:
+    try:
+        from http_server import HttpPutServer as WwwServer
+    except ModuleNotFoundError:
+        WwwServer = None
+    except ImportError:
+        WwwServer = None
+
 
 class KmlGenerator:
     def __init__(self, template_path="kml_template.mustache"):
