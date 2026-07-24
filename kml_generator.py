@@ -9,7 +9,8 @@ except ImportError:
 
 if WwwServer is None:
     try:
-        from http_server import HttpPutServer as WwwServer
+        import http_server
+        WwwServer = http_server.HttpPutServer
     except ModuleNotFoundError:
         WwwServer = None
     except ImportError:
@@ -27,6 +28,10 @@ class KmlGenerator:
             self.hosting = None
         else:
             self.hosting = WwwServer()
+            try:
+                self.hosting.logger = http_server.http_put_logger
+            except:
+                pass
 
     def add_placemark(self, photo_filename, photo_path, latitude, longitude):
         photo_name = os.path.splitext(photo_path)[0]

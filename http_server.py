@@ -1,8 +1,9 @@
 import os
 import json
 import base64
+import asyncio
 import logging
-from js import File, window, document, fetch # Import the JavaScript window object
+from js import File, window, document, fetch, Object # Import the JavaScript window object
 from pyodide.ffi import to_js
 
 http_put_logger = logging
@@ -32,31 +33,31 @@ if server is not None:
 if server is not None:
     class HttpPutServer:
         def __init__(self):
-            pass
+            self.logger = http_put_logger
 
         def get_www_url(self, photo_name):
             try:
                 return server['url_fmt'].format(server, photo_path=photo_name)
             except KeyError as e:
                 e.message = 'HTTP-PUT Image Server URL format was not specified.'
-                http_put_logger.error(e.message)
+                self.logger.error(e.message)
                 raise e
 
-        async def upload_photo(self, photo_js_object : File):
+        async def upload_photo_ex(self, photo_js_object : File):
             upload_url = server['upload_url'].format(server, photo_path=photo_js_object.name)
-            http_put_logger.info(f"Uploading {photo_js_object.name} to {upload_url}...") 
+            self.logger.info(f"Uploading {photo_js_object.name} to {upload_url}...") 
             response = await fetch(upload_url, to_js({
                 'method': 'PUT',
                 'headers': server["headers"],
                 'body': photo_js_object
-            }))
+            }, dict_converter=Object.fromEntries))
 
             response_text = await response.text()
 
             if response.ok:
-                http_put_logger.info(f"Upload successful [{response.status} {response.statusText}]: {photo_js_object.name}")
+                self.logger.info(f"Upload successful [{response.status} {response.statusText}]: {photo_js_object.name}")
             else:
-                http_put_logger.error(f"Upload failed [{response.status} {response.statusText}]: {response_text}")
+                self.logger.error(f"Upload failed [{response.status} {response.statusText}]: {response_text}")
             return response_text
 
         def upload_photo(self, photo_name : str):
@@ -66,8 +67,11 @@ if server is not None:
                     photo_js_object = file
                     break
             
-            if photo_js_object is not None:
-                return self.upload_photo(photo_js_object)
+            if photo_js_object is None:
+                self.logger.error(f"No pending file named {photo_name} found!")
+                return None
+            
+            return asyncio.create_task(self.upload_photo_ex(photo_js_object))
 
 
 def unit_test():
