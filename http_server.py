@@ -3,11 +3,76 @@ import json
 import base64
 import asyncio
 import logging
+from urllib.parse import urlparse
 from js import File, window, document, fetch, Object # Import the JavaScript window object
 from pyodide.ffi import to_js
 
 http_put_logger = logging
 
+
+def validate_config(config):
+    if not isinstance(config, dict):
+        raise ValueError('Configuration must be a JSON object.')
+    if str(config.get('upload_protocol', '')).upper() != 'HTTP_PUT':
+        raise ValueError('upload_protocol must be HTTP_PUT.')
+    if not isinstance(config.get('upload_url'), str) or not config['upload_url'].strip():
+        raise ValueError('upload_url must be a non-empty string.')
+    if not isinstance(config.get('url_fmt'), str) or not config['url_fmt'].strip():
+        raise ValueError('url_fmt must be a non-empty string.')
+    if not isinstance(config.get('headers'), dict):
+        raise ValueError('headers must be an object.')
+    if not isinstance(config['headers'].get('Content-Type'), str) or not config['headers']['Content-Type'].strip():
+        raise ValueError('headers.Content-Type must be a non-empty string.')
+
+    sample_config = {'hostname': 'example.com', 'upload_dir': 'Photos/example', 'username': 'admin', 'password': 'password'}
+    try:
+        upload_url = config['upload_url'].format(sample_config, photo_path='photo.jpg')
+        public_url = config['url_fmt'].format(sample_config, photo_path='photo.jpg')
+    except Exception as exc:
+        raise ValueError(f'Invalid Python format string: {exc}')
+
+    upload_parsed = urlparse(upload_url)
+    public_parsed = urlparse(public_url)
+    if not upload_parsed.scheme or not upload_parsed.netloc:
+        raise ValueError('upload_url must resolve to an absolute URL.')
+    if not public_parsed.scheme or not public_parsed.netloc:
+        raise ValueError('url_fmt must resolve to an absolute URL.')
+
+    return True
+
+
+def validate_cloud_config(config_json):
+    try:
+        config = json.loads(config_json) if isinstance(config_json, str) else config_json
+    except Exception as exc:
+        return {'ok': False, 'error': f'Invalid JSON: {exc}'}
+
+    try:
+        validate_config(config)
+    except Exception as exc:
+        return {'ok': False, 'error': str(exc)}
+
+    return {'ok': True}
+
+
+def sync_cloud_config():
+    global server
+    
+    if type(window.config) is str:
+        try:
+            settings = json.loads(window.config)
+        except Exception as exc:
+            http_put_logger.error(f"Failed to parse cloud config JSON: {exc}")
+            return
+    elif hasattr(window.config, 'to_py'):
+        settings = window.config.to_py()
+    else:
+        settings = window.config
+    
+    server = settings
+
+
+window.validate_cloud_config = validate_cloud_config
 
 """Load the server settings from the config file"""
 try:
@@ -18,7 +83,8 @@ except IOError:
     HttpPutServer = None
 
 if server is not None:
-    window.configuration = server
+    window.sync_cloud_config = sync_cloud_config
+
     """Validate the server's upload protocol"""
     try:
         if server['upload_protocol'].upper() != 'HTTP_PUT':

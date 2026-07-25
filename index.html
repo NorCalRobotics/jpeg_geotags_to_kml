@@ -17,12 +17,16 @@
         <input type="file" id="photo-picker" multiple accept="image/jpeg">
         <div id="photo-count"></div>
         <input type="text" id="project-name" placeholder="Project Name" value="UntitledProject"><br />
-        <div id="form-holder"></div>
+        <div id="form-holder">
+            <textarea id="cloud-settings" placeholder="Cloud Settings (JSON)" rows="12" cols="100"></textarea>
+            <button id="validate-btn" onClick='window.validateUserConfig()' disabled>Validate</button>
+            <button id="save-btn" onClick='window.saveUserConfig()' disabled>Save</button>
+        </div>
         <button id="convert-btn" onClick='convertToKML()'>Convert to KML</button>
     </div>
-    <div id="thumbnails-container"></div>
-    <div id="downloads-container"></div>
-    <div id="conversion-log"></div>
+    <div id="downloads-container" class="blue-outline"></div>
+    <div id="thumbnails-container" class="blue-outline" style="max-height: 50vh; overflow-y: auto;"></div><br />
+    <div id="conversion-log" class="blue-outline" style="max-height: 50vh; overflow-y: auto;"></div>
     <script src="photo-picker.js"></script>
 </body>
 </html>
