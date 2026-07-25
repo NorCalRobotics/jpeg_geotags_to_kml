@@ -52,6 +52,20 @@
     font-weight: bold;
 }
 
+#show-cloud-settings,
+#hide-cloud-settings {
+    display: inline-block;
+    margin: 8px 0;
+    color: #0366d6;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#show-cloud-settings:hover,
+#hide-cloud-settings:hover {
+    color: #024ea2;
+}
+
 .blue-outline {
     box-sizing: border-box;
     border: 4px solid transparent;

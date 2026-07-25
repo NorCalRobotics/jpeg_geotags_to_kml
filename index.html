@@ -19,9 +19,9 @@
         <label for="project-name">Project Name:</label>
         <input type="text" id="project-name" placeholder="Project Name" value="UntitledProject"><br />
         
-        <a onclick="window.showCloudConfigForm()" id="show-cloud-settings" disabled>Show Cloud Settings:</a>
+        <a href="#" onclick="window.showCloudConfigForm(); return false;" id="show-cloud-settings">Show Cloud Settings</a>
         <div id="form-holder" style="display: none;">
-            <a onclick="window.hideCloudConfigForm()">Hide Cloud Settings:</a>
+            <a href="#" onclick="window.hideCloudConfigForm(); return false;" id="hide-cloud-settings">Hide Cloud Settings</a>
             <textarea id="cloud-settings" placeholder="Cloud Settings (JSON)" rows="12" cols="100"></textarea>
             <button id="validate-btn" onClick='window.validateUserConfig()' disabled>Validate</button>
             <button id="save-btn" onClick='window.saveUserConfig()' disabled>Save</button>
