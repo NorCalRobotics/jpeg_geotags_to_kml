@@ -1,3 +1,5 @@
+# Copyright 2026 NorCalRobotics
+# Unmodified use and code review only. No AI/ML training or redistribution rights.
 import io
 import os
 import logging

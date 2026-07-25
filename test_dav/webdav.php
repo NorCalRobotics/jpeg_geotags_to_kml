@@ -1,4 +1,7 @@
 <?php
+// Copyright 2026 NorCalRobotics
+// Unmodified use and code review only. No AI/ML training or redistribution rights.
+
 // Standalone WebDAV test script supporting nested directories
 // Usage: http://yourserver/webdav.php/subfolder/another_folder/image.jpg
 

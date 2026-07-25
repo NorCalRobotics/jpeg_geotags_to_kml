@@ -1,4 +1,5 @@
 {
+  "Copyright": "NorCalRobotics, 2026",
   "files": {
     "./jpeg_lat_long_extractor.py": "",
     "./kml_generator.py": "",

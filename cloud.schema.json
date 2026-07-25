@@ -1,6 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "cloud.schema.json",
+  "Copyright": "NorCalRobotics, 2026",
   "title": "Photo Cloud Integration Settings",
   "description": "Configuration for specifying cloud storage access for KML processing.",
   "type": "object",

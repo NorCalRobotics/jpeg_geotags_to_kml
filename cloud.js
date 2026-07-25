@@ -1,3 +1,7 @@
+/*
+Copyright 2026 NorCalRobotics
+Unmodified use and code review only. No AI/ML training or redistribution rights.
+*/
 const cookie_var_name = 'user_config';
 const cookie_secs = 60 * 60 * 24 * 365; // 1 year
 const cookie_delim = ';';

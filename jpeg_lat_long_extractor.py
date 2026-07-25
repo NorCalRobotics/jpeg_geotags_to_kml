@@ -1,3 +1,5 @@
+# Copyright 2026 NorCalRobotics
+# Unmodified use and code review only. No AI/ML training or redistribution rights.
 import logging
 from PIL import Image
 from PIL.ExifTags import TAGS

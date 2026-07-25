@@ -1,3 +1,7 @@
+/*
+Copyright 2026 NorCalRobotics
+Unmodified use and code review only. No AI/ML training or redistribution rights.
+*/
 const photoPicker = document.getElementById('photo-picker');
 const thumbnailsContainer = document.getElementById('thumbnails-container');
 const photoCount = document.getElementById('photo-count');

@@ -1,6 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "photo_collection_settings.schema.json",
+  "Copyright": "NorCalRobotics, 2026",
   "title": "Photo Collection Settings",
   "description": "Configuration for specifying the local directory of photo collections for KML processing.",
   "type": "object",
