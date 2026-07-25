@@ -13,6 +13,28 @@ const default_ids = {
 
 var validated_json = null;
 var is_valid_json = false;
+var cloudSettingsEditor = null;
+
+function getCloudSettingsValue() {
+    if (cloudSettingsEditor) {
+        return cloudSettingsEditor.getValue();
+    }
+
+    const textAreaElement = document.getElementById(default_ids.textarea);
+    return textAreaElement ? textAreaElement.value : '';
+}
+
+function setCloudSettingsValue(value) {
+    if (cloudSettingsEditor) {
+        cloudSettingsEditor.setValue(value);
+        return;
+    }
+
+    const textAreaElement = document.getElementById(default_ids.textarea);
+    if (textAreaElement) {
+        textAreaElement.value = value;
+    }
+}
 
 function cookiesToDict() {
     const cookieDict = {};
@@ -72,10 +94,9 @@ async function setCloudConfig(config) {
 }
 
 function saveUserConfig(id = default_ids) {
-    var textAreaElement = document.getElementById(id['textarea']);
     var validateButton = document.getElementById(id['validate']);
     var saveButton = document.getElementById(id['save']);
-    var json = textAreaElement.value;
+    var json = getCloudSettingsValue();
     var settings = JSON.parse(json);
 
     saveUserConfigToCookie(json);
@@ -88,7 +109,8 @@ function validateUserConfig(id = default_ids) {
     var textAreaElement = document.getElementById(id['textarea']);
     var validateButton = document.getElementById(id['validate']);
     var saveButton = document.getElementById(id['save']);
-    var validation = window.validate_cloud_config(textAreaElement.value);
+    var json = getCloudSettingsValue();
+    var validation = window.validate_cloud_config(json);
 
     is_valid_json = validation.ok;
     if(!is_valid_json){
@@ -99,28 +121,48 @@ function validateUserConfig(id = default_ids) {
     } 
 
     textAreaElement.after.innerHTML = `<br/><p style="color:green;">OK!</p>`;
-    validated_json = textAreaElement.value;
+    validated_json = json;
     validateButton.disabled = true;
     saveButton.disabled = false;
 }
 
+function initializeCloudSettingsEditor(id = default_ids) {
+    var textAreaElement = document.getElementById(id['textarea']);
+
+    if (!textAreaElement || cloudSettingsEditor) {
+        return;
+    }
+
+    cloudSettingsEditor = CodeMirror.fromTextArea(textAreaElement, {
+        mode: { name: 'javascript', json: true },
+        theme: 'material-darker',
+        lineNumbers: true,
+        lineWrapping: true,
+        matchBrackets: true,
+        autoCloseBrackets: true,
+        viewportMargin: Infinity
+    });
+
+    cloudSettingsEditor.on('change', () => {
+        var validateButton = document.getElementById(id['validate']);
+        var saveButton = document.getElementById(id['save']);
+        is_valid_json = validated_json == getCloudSettingsValue();
+        validateButton.disabled = is_valid_json;
+        saveButton.disabled = true;
+    });
+}
+
 function create_config_form(id = default_ids) {
     var parentElement = document.getElementById(id['parent']);
-    var textAreaElement = document.getElementById(id['textarea']);
     var validateButton = document.getElementById(id['validate']);
     var saveButton = document.getElementById(id['save']);
 
-    textAreaElement.value = validated_json;
+    initializeCloudSettingsEditor(id);
+    setCloudSettingsValue(validated_json || '');
     is_valid_json = true;
 
     validateButton.disabled = true;
     saveButton.disabled = true;
-
-    textAreaElement.addEventListener('input', () => {
-        is_valid_json = validated_json == textAreaElement.value
-        validateButton.disabled = is_valid_json;
-        saveButton.disabled = true;
-    });
 }
 
 async function initialize() {

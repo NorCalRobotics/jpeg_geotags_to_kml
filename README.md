@@ -57,3 +57,8 @@ Finally, to run the main script, run [photo_gallery_dir_to_kml.py](photo_gallery
 ## Unit tests:
 You can also execute unit tests of the modules [jpeg_lat_long_extractor.py](jpeg_lat_long_extractor.py) and [www_server.py](www_server.py), by running either of those files as a script in your python interpretter.
 This might be useful to resolve any problems that occur stemming from missing dependencies or configuration issues.
+
+## Browser / PWA usage
+
+This repository also supports a browser-hosted PyScript/Pyodide workflow.
+See [PWA.md](PWA.md) for the current web-app instructions, including how to run `index.html`, use the cloud settings editor, and download the generated KML file.
