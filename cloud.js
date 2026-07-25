@@ -53,6 +53,16 @@ function saveUserConfigToCookie(config) {
     document.cookie = cookie_s;
 }
 
+function showCloudConfigForm() {
+    document.getElementById('form-holder').style.display = 'block';
+    document.getElementById('show-cloud-settings').style.display = 'none';
+}
+
+function hideCloudConfigForm() {
+    document.getElementById('form-holder').style.display = 'none';
+    document.getElementById('show-cloud-settings').style.display = 'block';
+}
+
 async function setCloudConfig(config) {
     while (!(typeof window.sync_cloud_config === 'function')) {
         await new Promise(resolve => setTimeout(resolve, 50));
@@ -124,8 +134,12 @@ async function initialize() {
         validated_json = await fetch("cloud.json").then(res => res.text());
     }
 
+    document.getElementById('show-cloud-settings').disabled = false;
+
     window.saveUserConfig = saveUserConfig;
     window.validateUserConfig = validateUserConfig;
+    window.showCloudConfigForm = showCloudConfigForm;
+    window.hideCloudConfigForm = hideCloudConfigForm;
 
     if(document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => {

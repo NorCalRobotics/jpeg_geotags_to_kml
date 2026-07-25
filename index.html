@@ -16,8 +16,12 @@
         <label for="photo-picker">Select Photos:</label>
         <input type="file" id="photo-picker" multiple accept="image/jpeg">
         <div id="photo-count"></div>
+        <label for="project-name">Project Name:</label>
         <input type="text" id="project-name" placeholder="Project Name" value="UntitledProject"><br />
-        <div id="form-holder">
+        
+        <a onclick="window.showCloudConfigForm()" id="show-cloud-settings" disabled>Show Cloud Settings:</a>
+        <div id="form-holder" style="display: none;">
+            <a onclick="window.hideCloudConfigForm()">Hide Cloud Settings:</a>
             <textarea id="cloud-settings" placeholder="Cloud Settings (JSON)" rows="12" cols="100"></textarea>
             <button id="validate-btn" onClick='window.validateUserConfig()' disabled>Validate</button>
             <button id="save-btn" onClick='window.saveUserConfig()' disabled>Save</button>
