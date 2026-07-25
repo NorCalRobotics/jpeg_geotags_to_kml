@@ -82,6 +82,10 @@ function saveUserConfigToCookie(config) {
 function showCloudConfigForm() {
     document.getElementById('form-holder').style.display = 'block';
     document.getElementById('show-cloud-settings').style.display = 'none';
+
+    if (cloudSettingsEditor) {
+        cloudSettingsEditor.refresh();
+    }
 }
 
 function hideCloudConfigForm() {
@@ -109,6 +113,14 @@ function saveUserConfig(id = default_ids) {
     saveButton.disabled = true;
 }
 
+function updateAuthHeaderButtonState() {
+    var json = getCloudSettingsValue();
+    var settings = JSON.parse(json);
+    var authButton = document.getElementById('set-auth-header');
+
+    authButton.disabled = ! (settings && settings.username && settings.password);
+}
+
 function validateUserConfig(id = default_ids) {
     var textAreaElement = document.getElementById(id['textarea']);
     var validateButton = document.getElementById(id['validate']);
@@ -124,10 +136,21 @@ function validateUserConfig(id = default_ids) {
         return;
     } 
 
+    updateAuthHeaderButtonState();
     textAreaElement.after.innerHTML = `<br/><p style="color:green;">OK!</p>`;
     validated_json = json;
     validateButton.disabled = true;
     saveButton.disabled = false;
+}
+
+function setAuthHeader() {
+    var json = getCloudSettingsValue(), new_json;
+    var settings = JSON.parse(json);
+
+    settings.headers.Authorization = 'Basic ' + btoa(settings.username + ':' + settings.password);
+
+    new_json = JSON.stringify(settings, null, 4);
+    setCloudSettingsValue(new_json);
 }
 
 function initializeCloudSettingsEditor(id = default_ids) {
@@ -163,6 +186,7 @@ function create_config_form(id = default_ids) {
 
     initializeCloudSettingsEditor(id);
     setCloudSettingsValue(validated_json || '');
+    updateAuthHeaderButtonState();
     is_valid_json = true;
 
     validateButton.disabled = true;
@@ -186,6 +210,7 @@ async function initialize() {
     window.validateUserConfig = validateUserConfig;
     window.showCloudConfigForm = showCloudConfigForm;
     window.hideCloudConfigForm = hideCloudConfigForm;
+    window.setAuthHeader = setAuthHeader;
 
     if(document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => {
