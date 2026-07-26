@@ -44,8 +44,15 @@ def get_photo_latlong(photo_path):
 
     dir(photo)
 
+    exif = photo._getexif()
+    if exif is None:
+        exif = photo.getexif()
+    
+    if exif is None:
+        return None
+
     exif_table = dict()
-    for tag_id, exif_value in photo._getexif().items():
+    for tag_id, exif_value in exif.items():
         tag_name = TAGS.get(tag_id)
         if tag_name is None:
             continue
