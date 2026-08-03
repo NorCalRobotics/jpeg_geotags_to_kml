@@ -29,12 +29,12 @@ Unmodified use and code review only. No AI/ML training or redistribution rights.
         
         <a href="#" onclick="window.showCloudConfigForm(); return false;" id="show-cloud-settings">Show Cloud Settings</a>
         <div id="form-holder" style="display: none;">
-            <a href="#" onclick="window.hideCloudConfigForm(); return false;" id="hide-cloud-settings">Hide Cloud Settings</a>
+            <a href="#" onclick="window.hideCloudConfigForm(); return false;" id="hide-cloud-settings">Hide Cloud Settings</a><br />
+            <a target="_blank" href="https://github.com/NorCalRobotics/jpeg_geotags_to_kml/blob/pwa_wip/pwa_storage_setup_guide.md">Cloud Settings Help</a>
             <textarea id="cloud-settings" placeholder="Cloud Settings (JSON)" rows="12" cols="100"></textarea>
             <button id="validate-btn" onClick='window.validateUserConfig()' disabled>Validate</button>
             <button id="save-btn" onClick='window.saveUserConfig()' disabled>Save</button>
             <button id="set-auth-header" onClick='window.setAuthHeader()' disabled>Update Authentication Header</button>
-            <a href="pwa_storage_setup_guide.md">Cloud Settings Help</a>
         </div>
         <button id="convert-btn" onClick='convertToKML()'>Convert to KML</button>
     </div>
