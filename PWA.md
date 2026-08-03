@@ -53,6 +53,9 @@ The JSON editor includes fields such as:
 
 If photo upload is not needed, you can enter `null` in the cloud settings textbox.
 
+See [pwa_storage_setup_guide.md](pwa_storage_setup_guide.md) for help with
+setting up your own cloud storage.
+
 ## Important files
 
 - `index.html` — web app entry page and UI.
